@@ -7,22 +7,20 @@
 # Author: Vedran Vukotic
 
 import numpy as np
-from rmac import RMAC
-import tensorflow as tf
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Lambda
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
+
+from rmac import RMAC
 
 batch_size = 32
 n_classes = 10
 n_samples = 10000
 
-
 # generate random data
 X = np.random.rand(n_samples, 32, 32, 3)
 y = np.eye(n_classes)[np.random.choice(n_classes, n_samples)]
-
 
 # Not a sensible architecture, just a demo
 model = Sequential()

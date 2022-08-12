@@ -8,14 +8,14 @@ wwww.imatag.com
 
 Author: Vedran Vukotic
 
-
-
 ### Details:
+
 * works in TensorFlow with or without the high-level Keras API
 * easy to replace in place of the last layers of a pretrained Keras Applications network
 * models using the R-MAC layer can be exported to TensorFlow Lite and used transparently
 
 ### Usage:
+
 ```python
 from rmac import RMAC
 
@@ -29,7 +29,9 @@ rmac = RMAC(model.output_shape)
 # add RMAC Layer to existing sequential model
 model.add(Lambda(rmac.rmac, name="rmac"))
 ```
+
 #### Optional Parameters:
+
 * _levels_ - number of levels / scales at which to to generate pooling regions (default = 3)
 * _power_ - power exponent to apply (not used by default)
 * _overlap_ - overlap percentage between regions (default = 40%)
@@ -38,14 +40,16 @@ model.add(Lambda(rmac.rmac, name="rmac"))
 * _verbose_ - verbose output - shows details about the regions used (default = False)
 
 ### Files:
+
 * _rmac.py_ - main module with R-MAC implementation
 * _demo_tensorflow.py_ - example usage with a custom model defined via the Keras API
 * _demo_keras_app.py_ - example usage with a pretrained model from Keras Applications
 * _demo_keras_app_tflite.py_ - example of a TF-Lite export / import of a custom model containing a custom R-MAC layer
 
-
 ### Citing:
+
 If you liked and used the code, please consider citing the work where it was used (and implemented for):
+
 ```
 @article{vukotic2020classification,
   title={Are Classification Deep Neural Networks Good for Blind Image Watermarking?},
@@ -60,6 +64,7 @@ If you liked and used the code, please consider citing the work where it was use
 ```
 
 as well as the original paper of the R-MAC creator:
+
 ```
 @article{tolias2016particular,
    author    = {Tolias, Giorgos and Sicre, Ronan and J{\'e}gou, Herv{\'e}},

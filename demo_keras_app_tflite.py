@@ -10,17 +10,14 @@
 
 import numpy as np
 import tensorflow as tf
-
-from rmac import RMAC
-
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Lambda
-
 # load the pretinrained network from Keras Applications
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from tensorflow.keras.layers import Lambda
+from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
+from rmac import RMAC
 
 # load the base model
 base_model = MobileNetV2()
@@ -35,24 +32,20 @@ base_out = base_model.get_layer(layer).output
 rmac = RMAC(base_out.shape, levels=5, norm_fm=True, sum_fm=True)
 
 # add RMAC layer on top
-rmac_layer = Lambda(rmac.rmac, input_shape=base_model.output_shape, name="rmac_"+layer)
+rmac_layer = Lambda(rmac.rmac, input_shape=base_model.output_shape, name="rmac_" + layer)
 
 out = rmac_layer(base_out)
-#out = Dense(1024)(out) # fc to desired dimensionality
+# out = Dense(1024)(out) # fc to desired dimensionality
 model = model = Model(base_model.input, out)
-
-
 
 # convert model to TF lite
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
-#converter.optimizations = [tf.lite.Optimize.OPTIMIZE_FOR_SIZE]
+# converter.optimizations = [tf.lite.Optimize.OPTIMIZE_FOR_SIZE]
 tflite_model = converter.convert()
 
 # save model
 with open("model.tflite", 'wb') as f:
     f.write(tflite_model)
-
-
 
 # Load TFLite model and allocate tensors
 interpreter = tf.lite.Interpreter("model.tflite")
@@ -77,7 +70,3 @@ print("Shape:  ", y.shape)
 print("Values: ", y)
 print("Min:    ", np.min(y))
 print("Max:    ", np.max(y))
-
-
-
-
